@@ -19,7 +19,7 @@ REST.prototype.connectMysql = function() {
 		port	 : process.env.OPENSHIFT_MYSQL_DB_PORT,
         user     : 'admin2cPSTM8',
         password : 'SdUxGSv6Y4yq',
-        database : 'RESTful',
+        database : 'restful',
         debug    :  false
     });
     pool.getConnection(function(err,connection){
