@@ -39,6 +39,22 @@ router.prototype.handleRoutes = function(router,connection,md5) {
             }
         });
     });
+	
+	router.get("/login",function(req,res){
+        var query = "SELECT * FROM ?? WHERE ??=? AND ??=?";
+        var table = ["users","email",req.query.eml,"pwd",md5(req.query.pwd)];
+        query = mysql.format(query,table);
+		// console.log(query);
+        connection.query(query,function(err,rows){
+            if(err) {
+                res.json({"Error" : true, "Message" : "Error executing MySQL query", "User" : req.body.email});
+            } else if (rows.length === 0) {
+				res.json({"Error" : true, "Message" : "Invalid email or password", "User" : req.body.email});
+			} else {
+                res.json({"Error" : false, "Message" : "Success", "User" : req.body.email});
+            }
+        });
+    });
 
     router.post("/user",function(req,res){
         var query = "INSERT INTO ??(??,??) VALUES (?,?)";
