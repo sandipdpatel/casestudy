@@ -6,12 +6,12 @@ var rest = require("./apps/rest.js");
 var app  = express();
 var env  = process.env;
 
-function rest(){
+function REST(){
     var self = this;
     self.connectMysql();
 };
 
-rest.prototype.connectMysql = function() {
+REST.prototype.connectMysql = function() {
     var self = this;
     var pool      =    mysql.createPool({
         connectionLimit : 100,
@@ -19,7 +19,7 @@ rest.prototype.connectMysql = function() {
 		port	 : process.env.OPENSHIFT_MYSQL_DB_PORT,
         user     : 'admin2cPSTM8',
         password : 'SdUxGSv6Y4yq',
-        database : 'restful',
+        database : 'RESTful',
         debug    :  false
     });
     pool.getConnection(function(err,connection){
@@ -31,7 +31,7 @@ rest.prototype.connectMysql = function() {
     });
 }
 
-rest.prototype.configureExpress = function(connection) {
+REST.prototype.configureExpress = function(connection) {
       var self = this;
       app.use(bodyParser.urlencoded({ extended: true }));
       app.use(bodyParser.json());
@@ -41,15 +41,15 @@ rest.prototype.configureExpress = function(connection) {
       self.startServer();
 }
 
-rest.prototype.startServer = function() {
+REST.prototype.startServer = function() {
       app.listen(env.NODE_PORT || 3000, env.NODE_IP || 'localhost',function(){
           console.log("All right ! I am alive at Port 3000.");
       });
 }
 
-rest.prototype.stop = function(err) {
+REST.prototype.stop = function(err) {
     console.log("ISSUE WITH MYSQL \n" + err);
     process.exit(1);
 }
 
-new rest();
+new REST();
